@@ -4,6 +4,30 @@
 changing_rooms
 {% endblock %}
 
+{% block header %}
+<a href="{{ url_for('logout') }}" class="btn btn-warning me-2">Logout</a>
+<a href="{{ url_for('add_room') }}" class="btn btn-outline-light me-2">Add new room</a>
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light me-2">admin-panel</a>
+{% endblock %}
+
+
 {% block content %}
-        <h1>Your rooms</h1>
+
+    <h1>Your rooms</h1>
+    {% if rooms|length <= 0 %}
+        <p>Пока не добавлено ни одной комнаты</p>
+    {% else %}
+            {% for room in rooms %}
+                <div class="card col-md-2 text-dark mb-3" style="width: 19rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Комната номер: {{ room.room_number }}</h5>
+                        <p class="card-text">Number of seats: {{ room.seats_number }}</p>
+                        <p class="card-text">Comments: {{ room.comment }}</p>
+                        <a href="#" class="btn btn-primary">Изменить параметры комнаты</a>
+                        <a href="#" class="btn btn-danger mt-2">Удалить комнату</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+    {% endif %}
 {% endblock %}

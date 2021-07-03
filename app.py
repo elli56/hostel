@@ -117,13 +117,31 @@ def dashboard():
 @app.route('/admin-dashboard')
 @login_required
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    all_rooms = Room.query.all()
+    return render_template('admin_dashboard.html', rooms=all_rooms)
 
 
 @app.route('/changing-rooms', methods=['GET', 'POST'])
 @login_required
 def changing_rooms():
-    return render_template('changing_rooms.html')
+    all_rooms = Room.query.all()
+    return render_template('changing_rooms.html', rooms=all_rooms)
+
+
+@app.route('/add-rooms', methods=['GET', 'POST'])
+@login_required
+def add_room():
+    if request.method == 'POST':
+        room_number = request.form.get('room_number')
+        seats_number = request.form.get('seats_number')
+        comment = request.form.get('comment')
+
+        new_room = Room(room_number=room_number, seats_number=seats_number, comment=comment)
+        db.session.add(new_room)
+        db.session.commit()
+        return redirect(url_for('changing_rooms'))
+    return render_template('add_room.html')
+
 
 
 @app.after_request

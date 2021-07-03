@@ -4,7 +4,11 @@
 title
 {% endblock %}
 
+{% block header %}
+<a href="{{ url_for('logout') }}" class="btn btn-warning">Logout</a>
+{% endblock %}
+
+
 {% block content %}
         <h1>dashboard</h1>
-        <a href="{{ url_for('logout') }}" class="btn btn-warning">Logout</a>
 {% endblock %}

@@ -4,10 +4,29 @@
 admin-panel
 {% endblock %}
 
+{% block header %}
+<a href="{{ url_for('logout') }}" class="btn btn-warning me-2">Logout</a>
+<a href="{{ url_for('changing_rooms') }}" class="btn btn-outline-light me-2">Панель управления комнат</a>
+<a href="{{ url_for('dashboard') }}" class="btn btn-warning">Чота</a>
+{% endblock %}
+
+
 {% block content %}
         <h1>Admin panel</h1>
         <h4>Комнаты</h4>
+        {% if rooms|length <= 0 %}
+        <p>Пока не добавлено ни одной комнаты</p>
+        {% else %}
+                {% for room in rooms %}
+                        <div class="card col-md-2 text-dark mb-3" style="width: 19rem;">
+                                <div class="card-body">
+                                        <h5 class="card-title">Комната номер: {{ room.room_number }}</h5>
+                                        <p class="card-text">Number of seats: {{ room.seats_number }}</p>
+                                        <p class="card-text">Comments: {{ room.comment }}</p>
+                                        <a href="#" class="btn btn-primary">Добавить/Изменить бронь</a>
+                                </div>
+                        </div>
+                {% endfor %}
+        {% endif %}
         <h4>Календарь броней</h4>
-        <a href="{{ url_for('changing_rooms') }}" class="btn btn-outline-light me-2">Панель управления комнат</a>
-        <a href="{{ url_for('register') }}" class="btn btn-warning">Sign-up</a>
 {% endblock %}
