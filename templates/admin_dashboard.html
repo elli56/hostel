@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+admin-panel
+{% endblock %}
+
+{% block content %}
+        <h1>Admin panel</h1>
+        <h4>Комнаты</h4>
+        <h4>Календарь броней</h4>
+        <a href="{{ url_for('changing_rooms') }}" class="btn btn-outline-light me-2">Панель управления комнат</a>
+        <a href="{{ url_for('register') }}" class="btn btn-warning">Sign-up</a>
+{% endblock %}

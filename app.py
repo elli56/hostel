@@ -25,6 +25,18 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"USER_ID: {self.id}, email: {self.email} hash_pwd: {self.hash_pwd}"
 
+
+class Room(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    room_number = db.Column(db.Integer(), nullable=False)
+    seats_number = db.Column(db.Integer(), nullable=False)
+    comment = db.Column(db.Text, nullable=True)
+
+    def __repr__(self):
+        return f"ROOM_ID: {self.id}, room_number: {self.room_number}"
+
+
+
 db.create_all()
 
 login_manager = LoginManager(app)
@@ -75,6 +87,8 @@ def login():
                 if bcrypt.check_password_hash(email_db.hash_pwd, password):
                     login_user(email_db)
                     next_page = request.args.get('next')
+                    if email == 'lovely-bear@mail.ru':
+                        return redirect(url_for('admin_dashboard'))
                     if next_page:
                         return redirect(next_page)
                     else:
@@ -100,12 +114,25 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+@app.route('/admin-dashboard')
+@login_required
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
+
+@app.route('/changing-rooms', methods=['GET', 'POST'])
+@login_required
+def changing_rooms():
+    return render_template('changing_rooms.html')
+
+
 @app.after_request
 def redirect_to_sign_in(response):
     if response.status_code == 401:
         return redirect(url_for('login') + '?next=' + request.url)
     else:
         return response
+
 
 
 
